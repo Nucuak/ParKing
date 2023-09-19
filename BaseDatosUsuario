@@ -1,0 +1,40 @@
+package es.ifp.parking;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteDatabase;
+
+public class BaseDatosUsuario extends SQLiteOpenHelper {
+
+    protected SQLiteDatabase db;
+
+    public BaseDatosUsuario(Context context) {
+
+        super(context,"RegistroUsuario", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE table usuario(id integer primary key autoincrement not null, nombre text,apellidos text,dni text, telefono text, direccion text, contraseña text, email text)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS usuario");
+
+    }
+
+    public void insertUsuario(String nombre, String apellidos, String dni, String telefono, String direccion, String contraseña, String email){
+
+        db=this.getReadableDatabase();
+        db.execSQL("INSERT INTO usuario(nombre, apellidos, dni, telefono, dni, telefono, direccion, contraseña, email) VALUES ('"+nombre+"','"+apellidos+"','"+dni+"','"+telefono+"','"+contraseña+"','"+email+"')");
+        db.close();
+    }
+
+    public void deleteUsuario(String nombre, String apellidos, String dni, String telefono, String direccion, String contraseña, String email){
+        db=this.getWritableDatabase();
+        db.execSQL("DELETE FROM usuario WHERE email=" +email);
+        db.close();
+    }
+
+}
